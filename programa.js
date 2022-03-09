@@ -1,6 +1,7 @@
 const fs = require('fs');
 const express = require("express")
 const app = express()
+const PORT = 8080
 
 class Contenedor{
     constructor(nombre){
@@ -73,7 +74,20 @@ class Contenedor{
     deleteAll(){
         fs.writeFileSync("./productos.txt","")
     }
+    
+    long(){
+        try {
+            const productos = fs.readFileSync("./productos.txt", "utf-8")
+            let productosarray = JSON.parse(productos)
+            return productosarray.length
+        }
+        catch (error) {
+            console.log("Error: ", toString(error))
+        }
+    }
 }
+
+
 
 const contenedor = new Contenedor("./productos.txt")
 
@@ -93,29 +107,30 @@ contenedor.save({
     thumbnail: 'https://arcencohogar.vtexassets.com/arquivos/ids/299158-500-auto?v=637665763525330000&width=500&height=auto&aspect=true'
 })
 
-//console.log(contenedor.getById(1))
-//console.log(contenedor.getAll())
+console.log(contenedor.getById(1))
+console.log(contenedor.getAll())
 //contenedor.deleteById(1)
 //contenedor.deleteAll()
 
-
-const express = require("express")
-const app = express()
-const PORT = 8080
 
 const server = app.listen(PORT, () => {
     console.log(`servidor iniciado en el puerto ${server.address().port}`)
 })
 
+app.get("/prueba", (req, res) => {
+    res.send(
+        `hola mundo`
+        )
+    })
+
 app.get("/productos", (req, res) => {
-    contenedor.forEach(element => {
         res.send(
-            `${element.nombre} ${element.precio} ${element.thumbnail}`
+            `todos los productos: </br> ${contenedor.getAll()}`
             )
     });
-})
-    app.get("/productoRandom", (req, res) => {
-        let axu = parseInt(Math.random() * (contenedor.length- 1)+1)
-        res.send(
-        ` ${contenedor[axu].nombre} ${contenedor[axu].precio} ${contenedor[axu].thumbnail}`)
+
+app.get("/productoRandom", (req, res) => {
+    let aux = parseInt(Math.random() * contenedor.long() - 1) +1
+    res.send(
+    ` <h1> Este es el producto: ${contenedor.getById(aux)}</h1>`)
 })
