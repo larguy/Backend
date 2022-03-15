@@ -38,7 +38,9 @@ productosRouter.put('/:id', (req, res) => {
     })
 })
 productosRouter.delete('/:id', (req, res) => {
-    productos.splice(req.params.id, 1,'')
+    // productos.splice(req.params.id, 1,'')
+    // res.send( 'se borro el productos ')
+    productos.splice(req.params.id -1, 1)
     res.send( 'se borro el productos ')
 })
 
