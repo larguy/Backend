@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
     })
 })
 
-app.use('/productos', productosRouter)
+app.use('/', productosRouter)
 
 app.engine(
     'hbs',
