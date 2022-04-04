@@ -38,7 +38,7 @@
     flex-direction: column;
 }
 
-.centrer{
+.centre{
     display: flex;
     justify-content: center;
 }
@@ -56,13 +56,9 @@
     font-family: sans-serif;
     font-size: 1em;
     margin-top: 1em;
-    width: 7%;
+    width: 13%;
 }
 
-.table{
-    margin-left: 10em;
-    margin-right: 10em;
-    margin-top: 2em;
-    background-color: black;
-    color: rgb(255, 255, 255);
+.marginBtn{
+    margin-bottom: 3em;
 }

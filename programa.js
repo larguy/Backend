@@ -32,6 +32,7 @@ console.log('probando hora',messages[0].date)
 io.on('connection', (socket) => {
     console.log('se conecto un usuario')
     socket.emit('messages', messages)
+    sendInitialData(socket);
     socket.on('notificacion', (data) => {
         console.log(data)
     })
@@ -42,7 +43,24 @@ io.on('connection', (socket) => {
     })
 })
 
-app.use('/', productosRouter)
+const sendInitialData = async (socket) => {
+    const { data: productos } = await axios.get(
+      "http://localhost:8080/productos"
+    );
+    const { data: template } = await axios.get(
+      "http://localhost:8080/views/datos.hbs"
+    );
+    const fileData = await fs.promises.readFile("./data/messages.txt", "utf-8");
+    const mensajes = JSON.parse(fileData);
+    socket.emit("connected", {
+      mensajes,
+      productos,
+      template,
+    });
+  };
+
+
+app.use('/productos', productosRouter)
 
 app.engine(
     'hbs',
@@ -52,9 +70,5 @@ app.engine(
     })
 )
 
-// const server = app.listen(PORT, () => {
-//     console.log(`servidor iniciado en el puerto ${server.address().port}`)
-// })
-// server.on('error', (error) => { console.log(`Hubo un error: ${error}`) })
 
 module.exports = app
