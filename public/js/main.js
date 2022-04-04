@@ -18,6 +18,22 @@ function render(data) {
     
 }
 
+function renderProduct(data) {
+    const html = data
+    .map((elem, index) => {
+        return `{{{body}}}`
+    })
+    .join(' ')
+    document.getElementById('product').innerHTML = html
+    
+}
+
+
+socket.on('products', function (data) {
+    renderProduct(data)
+})
+
+
 socket.on('messages', function (data) {
     render(data)
 })
