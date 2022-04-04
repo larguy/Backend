@@ -1,6 +1,28 @@
-{{#each this}}
-    <h1>{{title}}</h1>
-    <p>{{price}}</p>
-    <img src="{{thumbnail}}" alt="{{title}}" width="150" height="150" >
-{{/each}}
-<br>
+
+<h2 class="mx-auto">Lista de productos</h2>
+{{#if this}}
+  <table class="table table-dark">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Thumbnail</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+        <tr>
+          <th scope="row">{{this.id}}</th>
+          <td>{{this.title}} </td>
+          <td>{{this.price}} </td>
+          <td><img src="{{this.thumbnail}}" alt="{{this.title}}" width="75" height="75" /></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{else}}
+  <div class="alert alert-danger" role="alert">
+    No se encontraron datos
+  </div>
+{{/if}}
